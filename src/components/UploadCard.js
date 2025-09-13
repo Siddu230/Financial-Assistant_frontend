@@ -103,7 +103,8 @@ export default function UploadCard({ onSaved }) {
 
       // Extract all numbers (could be date-like or amounts). We'll use money-like numbers with decimals.
       // Matches 1,234.56 or 1234.56 or 1000 or 1000.00
-      const numMatches = line.match(/(\d{1,3}(?:[,\d]{0,})?(?:\.\d{1,2})?)/g) || [];
+      // Improved regex and no unnecessary escapes
+      const numMatches = line.match(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g) || [];
 
       // Strategy for amount:
       // - If income keyword present and there are >= 2 numbers, take second-last (amount before balance)
@@ -132,7 +133,8 @@ export default function UploadCard({ onSaved }) {
 
       // Extract date if present (formats: 01-Jul-25, 01/07/2025, 2025-07-01, etc)
       let dateIso = new Date().toISOString();
-      const dateMatch = line.match(/(\d{1,2}[-/][A-Za-z]{3}[-/]\d{2,4}|\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}|\d{4}-\d{2}-\d{2})/);
+      // use unambiguous char class [/-] (hyphen at end avoids escapes)
+      const dateMatch = line.match(/(\d{1,2}[/-][A-Za-z]{3}[/-]\d{2,4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2})/);
       if (dateMatch) {
         // try Date parse safely
         const ds = dateMatch[0].replace(/\s+/g, '-');
@@ -146,7 +148,7 @@ export default function UploadCard({ onSaved }) {
       // remove date portion if matched
       if (dateMatch) desc = desc.replace(dateMatch[0], '');
       // remove number tokens
-      desc = desc.replace(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g, ' ').replace(/[-_/]+/g, ' ').replace(/\s+/g, ' ').trim();
+      desc = desc.replace(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g, ' ').replace(/[-_\/]+/g, ' ').replace(/\s+/g, ' ').trim();
 
       let category = 'auto';
       if (desc) {
@@ -264,3 +266,4 @@ export default function UploadCard({ onSaved }) {
     </div>
   );
 }
+
