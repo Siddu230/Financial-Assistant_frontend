@@ -1,4 +1,9 @@
 # You can acess the `Backend` of this `Project` : https://github.com/Siddu230/Financial-Assistant_backend
+---
+# To use the Apllication Default Login details  
+ - Default mail : admin@gmail.com 
+ - Default pass: admin
+---
 
 # Finance Assistant — Frontend
 
