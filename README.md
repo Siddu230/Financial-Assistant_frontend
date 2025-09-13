@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# You can acess the backend in this folder : https://github.com/Siddu230/Financial-Assistant_backend
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
