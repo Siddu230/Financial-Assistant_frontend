@@ -103,13 +103,9 @@ export default function UploadCard({ onSaved }) {
 
       // Extract all numbers (could be date-like or amounts). We'll use money-like numbers with decimals.
       // Matches 1,234.56 or 1234.56 or 1000 or 1000.00
-      // Improved regex and no unnecessary escapes
       const numMatches = line.match(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g) || [];
 
       // Strategy for amount:
-      // - If income keyword present and there are >= 2 numbers, take second-last (amount before balance)
-      // - Else if table looks like Debit Credit Balance (multiple numbers), take first number after description
-      // - Else if numbers exist, take the first plausible amount
       let amount = 0;
       if (numMatches.length > 0) {
         // Convert matches to numbers (strip commas)
@@ -117,15 +113,12 @@ export default function UploadCard({ onSaved }) {
         if (isIncomeWord && numbers.length >= 2) {
           amount = numbers[numbers.length - 2];
         } else if (numbers.length >= 2) {
-          // common bank line: Date Description Debit Credit Balance
-          // if there are 2 or 3 numbers, first number after description is likely the debit amount
           amount = numbers[0];
         } else {
           amount = numbers[0];
         }
       }
 
-      // If amount is NaN or zero, fallback to 0
       if (!amount || isNaN(amount)) amount = 0;
 
       // Determine type using improved heuristic: keywords OR pattern of Credit value position
@@ -133,26 +126,23 @@ export default function UploadCard({ onSaved }) {
 
       // Extract date if present (formats: 01-Jul-25, 01/07/2025, 2025-07-01, etc)
       let dateIso = new Date().toISOString();
-      // use unambiguous char class [/-] (hyphen at end avoids escapes)
-      const dateMatch = line.match(/(\d{1,2}[/-][A-Za-z]{3}[/-]\d{2,4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2})/);
+      const dateMatch = line.match(/(\d{1,2}[\/-][A-Za-z]{3}[\/-]\d{2,4}|\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|\d{4}-\d{2}-\d{2})/);
       if (dateMatch) {
-        // try Date parse safely
         const ds = dateMatch[0].replace(/\s+/g, '-');
         const parsedDate = new Date(ds);
         if (!isNaN(parsedDate.getTime())) dateIso = parsedDate.toISOString();
       }
 
       // Category: take short snippet of description between date and numbers
-      // remove numbers and dates from the line and take first few words
       let desc = line;
-      // remove date portion if matched
       if (dateMatch) desc = desc.replace(dateMatch[0], '');
       // remove number tokens
-      desc = desc.replace(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g, ' ').replace(/[-_\/]+/g, ' ').replace(/\s+/g, ' ').trim();
+      desc = desc.replace(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g, ' ');
+      // replace separators (use RegExp constructor to avoid escaping issues in literal)
+      desc = desc.replace(new RegExp('[-_/]+', 'g'), ' ').replace(/\s+/g, ' ').trim();
 
       let category = 'auto';
       if (desc) {
-        // pick 2 words for category if available
         const parts = desc.split(/\s+/).filter(Boolean);
         category = (parts.slice(0, 2).join(' ') || 'auto').substring(0, 40);
       }
@@ -168,7 +158,6 @@ export default function UploadCard({ onSaved }) {
 
     // Convert cleaned lines to txs
     const txs = cleaned.map(parseLineToTx)
-      // remove suspicious zero-amount or excessive balance-only lines
       .filter(tx => tx.amount && !isNaN(tx.amount) && tx.amount > 0 && tx.type);
 
     if (txs.length === 0) {
@@ -266,4 +255,3 @@ export default function UploadCard({ onSaved }) {
     </div>
   );
 }
-
