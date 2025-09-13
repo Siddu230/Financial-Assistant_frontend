@@ -124,9 +124,11 @@ export default function UploadCard({ onSaved }) {
       // Determine type using improved heuristic: keywords OR pattern of Credit value position
       const type = isIncomeWord ? 'income' : 'expense';
 
-      // Extract date if present (formats: 01-Jul-25, 01/07/2025, 2025-07-01, etc)
+      // Extract date if present (various formats)
       let dateIso = new Date().toISOString();
-      const dateMatch = line.match(/(\d{1,2}[\/-][A-Za-z]{3}[\/-]\d{2,4}|\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|\d{4}-\d{2}-\d{2})/);
+      // Use RegExp constructor to avoid using '/' inside a regex literal
+      const dateRegex = new RegExp('(\\d{1,2}[\\/-][A-Za-z]{3}[\\/-]\\d{2,4}|\\d{1,2}[\\/-]\\d{1,2}[\\/-]\\d{2,4}|\\d{4}-\\d{2}-\\d{2})');
+      const dateMatch = line.match(dateRegex);
       if (dateMatch) {
         const ds = dateMatch[0].replace(/\s+/g, '-');
         const parsedDate = new Date(ds);
@@ -138,8 +140,8 @@ export default function UploadCard({ onSaved }) {
       if (dateMatch) desc = desc.replace(dateMatch[0], '');
       // remove number tokens
       desc = desc.replace(/(\d{1,3}(?:[,\d]*)(?:\.\d{1,2})?)/g, ' ');
-      // replace separators (use RegExp constructor to avoid escaping issues in literal)
-      desc = desc.replace(new RegExp('[-_/]+', 'g'), ' ').replace(/\s+/g, ' ').trim();
+      // replace separators (use RegExp constructor to avoid escaping issues)
+      desc = desc.replace(new RegExp('[-_\\/]+', 'g'), ' ').replace(/\s+/g, ' ').trim();
 
       let category = 'auto';
       if (desc) {
