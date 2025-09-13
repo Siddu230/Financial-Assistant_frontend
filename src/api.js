@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api'
+  baseURL: process.https://financial-assistant-backend-4833.onrender.com || 'http://localhost:5000/api'
 });
 
 // Attach token to every request if logged in
