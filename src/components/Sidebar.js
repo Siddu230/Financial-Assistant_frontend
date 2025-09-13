@@ -43,7 +43,7 @@ export default function Sidebar() {
       <div style={{marginTop:20}}>
         <button className="side-btn" onClick={()=>{
           localStorage.clear();
-          window.location.href = '/login';
+          window.location.href = 'https://personal-financila-assistan-siddu.netlify.app/';
         }}>
           <FaSignOutAlt/> Logout
         </button>
