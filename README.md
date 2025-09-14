@@ -64,9 +64,6 @@ REACT_APP_API_URL=https://financial-assistant-backend-4833.onrender.com/api
 - `REACT_APP_API_URL` — base URL for the backend API (include `/api` if your backend serves under that route).
 - After creating or changing `.env`, restart dev server.
 
-> Security: Do **not** store secrets (passwords, tokens) in front-end env. Those belong on the server.
-
-
 ```
 ---
 ## nstall & run (development)
