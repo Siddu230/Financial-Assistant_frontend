@@ -3,7 +3,7 @@
  - Default mail : admin@gmail.com
  - Default pass: admin
 # `Project  Demo Video `:
-<a href="https://drive.google.com/file/d/1q-3whW0WJ1Z75Zj9Cdr2J4I2QYVz72UC/view?usp=drive_link">Watch the demo video</a>
+<a href="https://drive.google.com/file/d/1q-3whW0WJ1Z75Zj9Cdr2J4I2QYVz72UC/view?usp=drive_link" target="_blank">Watch the demo video</a>
 
 [![Demo Video](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnV-MQcJkCEzr_aYZry0hkuFjwhxjvvlJzyg&s)](https://drive.google.com/file/d/1q-3whW0WJ1Z75Zj9Cdr2J4I2QYVz72UC/view?usp=drive_link)
 
