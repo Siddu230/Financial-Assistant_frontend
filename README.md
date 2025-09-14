@@ -66,28 +66,6 @@ REACT_APP_API_URL=https://financial-assistant-backend-4833.onrender.com/api
 
 > Security: Do **not** store secrets (passwords, tokens) in front-end env. Those belong on the server.
 
----
-
-
-## Configure `src/api.js`
-
-Use the `REACT_APP_API_URL` variable. Example `src/api.js`:
-
-```js
-import axios from 'axios';
-
-const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
-  timeout: 30000,
-});
-
-API.interceptors.request.use(config => {
-  const token = localStorage.getItem('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
-
-export default API;
 
 ```
 ---
