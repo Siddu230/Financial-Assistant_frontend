@@ -1,8 +1,8 @@
 # You can acess the `Backend` of this `Project` : https://github.com/Siddu230/Financial-Assistant_backend
-# To use the Apllication Default Login details  
+# To use the`apllication Default Login `details  
  - Default mail : admin@gmail.com
  - Default pass: admin
-# Project  Demo Video :
+# `Project  Demo Video `:
 <a href="https://drive.google.com/file/d/1q-3whW0WJ1Z75Zj9Cdr2J4I2QYVz72UC/view?usp=drive_link">Watch the demo video</a>
 
 [![Demo Video](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnV-MQcJkCEzr_aYZry0hkuFjwhxjvvlJzyg&s)](https://drive.google.com/file/d/1q-3whW0WJ1Z75Zj9Cdr2J4I2QYVz72UC/view?usp=drive_link)
